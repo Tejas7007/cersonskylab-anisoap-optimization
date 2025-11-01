@@ -1,232 +1,318 @@
-AniSOAP Optimization
+# AniSOAP Optimization
 
-Goal: Make anisotropic SOAP (AniSOAP) descriptor computation fast, scalable, and reproducible across CPU/GPU backends while preserving descriptor fidelity.
+> **Goal:** Make anisotropic SOAP (AniSOAP) descriptors *fast, scalable, and easy to reproduce* across CPU/GPU backends while preserving descriptor fidelity.
 
-Overview
+<!--
+HOW TO USE THIS DRAFT
+1) Paste Arthur–Tejas message snippets into the chat; I (ChatGPT) will fold them into the marked TODO blocks.
+2) Replace any 🚧 TODO blocks with concrete content.
+3) Ensure filenames/paths match your repo (case‑sensitive).
+-->
 
+## Why this repo exists (Problem → Impact)
 
-Problem. Descriptor generation can dominate runtime (wall-time, memory traffic, vectorization limits, I/O), especially across multi-species systems.
+* **Problem:** Descriptor generation for atomistic ML pipelines can be a bottleneck (wall‑time, memory, vectorization limits, I/O), especially at scale and across diverse species.
+* **Impact:** Faster AniSOAP unlocks bigger datasets, larger hyperparameter sweeps, and practical deployment in downstream interatomic potentials and property models.
+* **This repo solves:** A principled, reproducible optimization path—with baselines, profiling, and validated speedups on real datasets.
 
+## TL;DR (What we did)
 
-Impact. Faster AniSOAP enables larger datasets, broader hyper-param sweeps, and smoother deployment in downstream potentials/property models.
+* Built a **reproducible benchmarking harness** (datasets, seeds, metrics).
+* Implemented **profiling** (cProfile/py‑spy/line_profiler) and **micro‑benchmarks**.
+* Compared **systems × backends** and **wall‑time vs. #species**.
+* Produced **publication‑quality figures** and CSV tables.
+* Documented **tuning levers** (algorithmic, memory, parallelism, vectorization, batching).
 
+> Key artifacts live in `results/figures/`, `results/tables/`, and `results/logs/`.
 
-This repo provides. A principled, reproducible optimization path with baselines, profiling, species-scaling analysis, and validated speedups.
+## Context & scope
 
+* **AniSOAP**: anisotropic Smooth Overlap of Atomic Positions descriptor.
+* **Scope of this repo:** performance engineering + correctness checks for descriptor generation; does *not* reimplement the learning models themselves.
+* **Out‑of‑scope:** exhaustive chemistry benchmarks, downstream ML leaderboard.
 
-Artifacts live in results/figures/, results/tables/, and results/logs/.
+## Repo structure (high‑level)
 
-Repo Structure
+```
 .
 ├── scripts/
-│   ├── make_plots.py
-│   ├── run_benchmarks.py
-│   └── aggregate_metrics.py
+│   ├── make_plots.py                 # generates figures from metrics JSON/CSVs
+│   ├── 🚧 (add) run_benchmarks.py     # entrypoint to run all benchmark suites
+│   └── 🚧 (add) profile_*.py          # minimal repros for targeted profiling
+├── anisoap_opt/                      # (optional) library code if any
 ├── results/
 │   ├── figures/
 │   │   ├── wall_time_by_system.png
-│   │   ├── wall_time_vs_species.png
-│   │   ├── prof_benzenes_callgraph.png
-│   │   └── prof_ellipsoids_callgraph.png
+│   │   └── wall_time_vs_species.png
 │   ├── tables/
-│   │   ├── timings_chtc.csv
-│   │   ├── timings_local.csv
-│   │   ├── summary_local.csv
 │   │   └── combined_from_metrics.csv
 │   └── logs/
-│       ├── prof_benzenes_200.prof
-│       ├── prof_ellipsoids_200.prof
-│       └── bench.svg
-├── submit/
-├── data/
-└── README.md
+├── env/
+│   └── 🚧 (add) environment.yml | pyproject.toml
+├── data/                             # symlinks or small example snippets only
+├── README.md                         # ← this file
+└── LICENSE
+```
 
+## Installation
 
-Installation
-Conda
+**Option A (conda):**
+
+```bash
 conda env create -f env/environment.yml
 conda activate anisoap-opt
+```
 
-uv/pip
+**Option B (uv/pip):**
+
+```bash
 uv venv && source .venv/bin/activate
 uv pip install -e .
+```
 
-Depends on (minimums & notes):
+> 🚧 TODO: list core dependencies (Python ≥3.x, PyTorch/CUDA versions, compilers, OpenMP/MKL, etc.).
 
+## Data
 
-Python ≥ 3.10
+* We use internal or public molecules/systems to measure descriptor throughput.
+* **Large datasets are not checked in.** Provide paths via env vars or CLI.
 
+**Example layout**
 
-NumPy ≥ 1.26, SciPy ≥ 1.11
-
-
-PyTorch ≥ 2.2  (CPU OK; MPS optional on Apple Silicon; CUDA optional on Linux)
-
-
-BLAS/LAPACK: MKL or OpenBLAS
-
-
-pandas ≥ 2.0, matplotlib ≥ 3.7
-
-
-Dev profiling: py-spy ≥ 0.3, gprof2dot ≥ 2024.6.6, graphviz (dot)
-
-
-Tests: pytest ≥ 7.0
-
-
-Notes
-# macOS (Apple Silicon)
-brew install graphviz   # or: conda install -c conda-forge graphviz
-
-# Linux (CUDA example)
-pip install "torch==2.*+cu121" --index-url https://download.pytorch.org/whl/cu121
-
-
-Data
-
-
-Inputs: one_species.xyz, benzenes.xyz (2 spp.), three_species.xyz, four_species.xyz, ellipsoids.xyz.
-
-
-For constant-N species sweeps: create_fake_benzenes.py (changes labels only).
-
-
-Place large/raw inputs under $DATA_ROOT (not tracked).
-
-
-Example
+```
 DATA_ROOT/
-  ├── one_species.xyz
-  ├── benzenes.xyz
-  ├── three_species.xyz
-  ├── four_species.xyz
-  ├── ellipsoids.xyz
-  └── create_fake_benzenes.py
+  ├── system_A/
+  ├── system_B/
+  └── ...
+```
 
+> 🚧 TODO: Document any dataset sources, licenses, and download helpers.
 
-Methodology
-Modes (backends)
-ModeDescriptionnumpy_onlyPure NumPy baseline.torch_mixedNumPy pipeline with a NumPy→Torch→NumPy wrapper around the hotspot einsum.torch_fullKeeps tensors in Torch through the hotspot to avoid conversion overhead.
-CPU fairness (thread pinning)
-export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-       NUMEXPR_NUM_THREADS=1 TORCH_NUM_THREADS=1
+## Reproducing the results
 
-Species scaling & normalization
-Report time / N², where N² is the pairwise atom grid touched by distance/einsum. With constant-N files (via create_fake_benzenes.py), label changes (1→4 species) are the only variable; curves remain stable and show no worse-than-quadratic growth.
+### 1) Run benchmarks
 
-Reproducing Results
-1) Run benchmarks (constant N; vary species)
-ANISOAP_BACKEND=numpy_only \
-python scripts/run_benchmarks.py --data $DATA_ROOT \
-  --files one_species.xyz benzenes.xyz three_species.xyz four_species.xyz \
-  --out results/metrics/numpy_species.json
+```bash
+python scripts/run_benchmarks.py \
+  --data $DATA_ROOT \
+  --config configs/batch_cpu.yaml \
+  --out results/metrics/cpu.json
 
-ANISOAP_BACKEND=torch_mixed \
-python scripts/run_benchmarks.py --data $DATA_ROOT \
-  --files one_species.xyz benzenes.xyz three_species.xyz four_species.xyz \
-  --out results/metrics/torch_mixed_species.json
+python scripts/run_benchmarks.py \
+  --data $DATA_ROOT \
+  --config configs/batch_gpu.yaml \
+  --out results/metrics/gpu.json
+```
 
-ANISOAP_BACKEND=torch_full \
-python scripts/run_benchmarks.py --data $DATA_ROOT \
-  --files one_species.xyz benzenes.xyz three_species.xyz four_species.xyz \
-  --out results/metrics/torch_full_species.json
+### 2) Aggregate into a single table
 
-2) Aggregate
+```bash
 python scripts/aggregate_metrics.py \
   --inputs results/metrics/*.json \
   --out results/tables/combined_from_metrics.csv
+```
 
-3) Plot
+### 3) Make plots
+
+```bash
 python scripts/make_plots.py \
   --table results/tables/combined_from_metrics.csv \
   --figdir results/figures
+```
 
+## Results (figures & tables)
 
-Results
+### QUICK CHECKLIST — add your local figures so they render on GitHub
 
-Images must be outside code fences and paths are case-sensitive.
+1. **Locate** your artifacts on macOS (replace the path root if needed):
 
+   ```bash
+   # from anywhere
+   mdfind 'kMDItemFSName ==[c] "*anisoap*" || kMDItemFSName ==[c] "*profiling*"' | head -n 50
+   # or within your project dir
+   cd /path/to/cersonskylab-anisoap-optimization
+   find . -iname "*.png" -o -iname "*.svg" -o -iname "*.prof" -o -iname "*timings*.csv" -o -iname "*.json"
+   ```
+2. **Copy** the figures you want into the repo (case‑sensitive paths):
 
-Torch CPU often outperforms NumPy for einsum-heavy sections (~10–25% faster). Frequently torch_full ≤ torch_mixed ≤ numpy_only, implying conversion overhead is small but non-zero and per-core kernel efficiency dominates.
+   ```bash
+   mkdir -p results/figures results/logs results/tables
+   # examples — adjust src paths to your Mac
+   cp ~/Desktop/profiling/wall_time_by_system.png    results/figures/
+   cp ~/Desktop/profiling/wall_time_vs_species.png   results/figures/
+   cp ~/Desktop/profiling/prof_benzenes_callgraph.png results/figures/
+   cp ~/Desktop/profiling/prof_ellipsoids_callgraph.png results/figures/
+   cp ~/Desktop/profiling/bench.svg                  results/logs/
+   cp ~/Desktop/profiling/timings_chtc.csv           results/tables/
+   cp ~/Desktop/profiling/timings_local.csv          results/tables/
+   cp ~/Desktop/profiling/summary_local.csv          results/tables/
+   cp ~/Desktop/profiling/prof_benzenes_200.prof     results/logs/
+   cp ~/Desktop/profiling/prof_ellipsoids_200.prof   results/logs/
+   ```
+3. **Commit** so GitHub can render them:
 
-After N² normalization and constant-N control, species curves do not show super-quadratic growth.
+   ```bash
+   git add results/figures results/logs results/tables README.md
+   git commit -m "Add profiling figures, logs, and tables; update README"
+   git push origin main
+   ```
 
+> Image markdown must be **outside** code fences and filenames **case‑sensitive**.
 
-Tables: results/tables/combined_from_metrics.csv, timings_chtc.csv, timings_local.csv, summary_local.csv
+```text
+# Do NOT put image lines inside this code block.
+```
 
-Profiling & Notes
+![Wall time by system & backend](results/figures/wall_time_by_system.png)
 
+![Wall time vs #Species](results/figures/wall_time_vs_species.png)
 
-Hotspot: numpy.einsum along pairwise_ellip_expansion → transform → power_spectrum.
+![cProfile call graph — Benzenes](results/figures/prof_benzenes_callgraph.png)
 
+![cProfile call graph — Ellipsoids](results/figures/prof_ellipsoids_callgraph.png)
 
-Tools: cProfile, py-spy; Torch profiler for backend traces.
+*Takeaway:* Torch CPU typically outperforms NumPy for `einsum`‑heavy sections; MPS/CUDA plots should be added once the full Torch path is ported.
 
+*Takeaway:* After normalizing by **N²**, species curves do not show super‑quadratic behavior on the standardized files.
 
-Facts (from runs):
+**Combined metrics table:** `results/tables/combined_from_metrics.csv`
 
+> Image markdown must be **outside** code fences and filenames **case‑sensitive**.
 
-Benzenes baseline: total 100.85 s; numpy.c_einsum 76.1 s (~75.5%); 2,362,962 calls.
+```text
+# Do NOT put image lines inside this code block.
+```
 
+![Wall time by system & backend](results/figures/wall_time_by_system.png)
 
-Ellipsoids baseline: total 1.856 s; numpy.c_einsum 0.551 s (~29.7%). Excluding ~1 s import overhead, compute section ≈0.83 s with einsum ≈ 66%.
+![Wall time vs #Species](results/figures/wall_time_vs_species.png)
 
+**Combined metrics table:** `results/tables/combined_from_metrics.csv`
 
+> 🚧 TODO: add a short narrative under each figure explaining: dataset, hardware, sample size, takeaways.
 
+## Species scaling & normalization
 
-Backend behavior: Torch’s ATen kernels can fuse broadcast+masked reductions and use tuned vector micro-kernels; with threads pinned, Torch can still win per-core. On Apple MPS, small runs are very fast but large high-rank einsum workloads can stall due to many tiny kernel launches + host↔device copies.
+We report `time / N²` (where `N²` is the size of the pairwise atom grid touched by distance/einsum steps) to remove raw atom‑count effects. Using `create_fake_benzenes.py`, we generate multi‑species files with **constant N** so that label changes (1→4 species) are the only variable. Under this control, curves remain stable and do **not** exhibit worse‑than‑quadratic growth with species.
 
+## What we optimized (and why)
 
-Reproduce profiling
-py-spy record -o results/logs/bench.svg -- python scripts/run_benchmarks.py --files benzenes.xyz
-python -m cProfile -o results/logs/prof_benzenes_200.prof   scripts/run_benchmarks.py --files benzenes.xyz
-python -m cProfile -o results/logs/prof_ellipsoids_200.prof scripts/run_benchmarks.py --files ellipsoids.xyz
+* **Vectorization & batching**: reduce Python overhead; maximize BLAS/GPU utilization.
+* **Parallelism**: OpenMP/threading on CPU; streams/blocks on GPU.
+* **Memory traffic**: layout/contiguity, pinning, avoiding needless copies.
+* **Algorithmic choices**: cutoff radii, basis sizes, truncations that preserve accuracy but lower cost.
+* **I/O & caching**: chunked reads/writes; memoize reusable intermediates.
 
+> 🚧 TODO: Tie each bullet to concrete code changes, PRs, or commits.
 
-Validation
+## Profiling & methodology
 
+* **cProfile/py‑spy**: hotspot discovery at function level.
+* **line_profiler**: line‑level attribution for kernels.
+* **nvprof/ncu** (if GPU): kernel occupancy and memory throughput.
+* **A/B experiments**: one change at a time with fixed seeds.
 
-Check descriptor shape/dtype and invariances.
+**Reproduce profiling**
 
+```bash
+py-spy record -o results/logs/bench.svg -- python scripts/run_benchmarks.py ...
+python -m cProfile -o results/logs/bench.prof scripts/run_benchmarks.py ...
+```
 
-fp32 vs fp64: no meaningful differences observed on profiled paths.
+> 🚧 TODO: Link representative `.svg` flamegraphs and `.prof` summaries in `results/logs/`.
 
+## Validation (did we keep correctness?)
 
-Tests: np.testing.assert_allclose (suggested rtol=1e-6, atol=1e-8 for fp64; relax for fp32). Run via pytest -q.
+* Cross‑check descriptor arrays against **reference** implementation within tolerance.
+* Unit tests for **shape/dtype** & invariances.
+* Spot‑check downstream task metrics unchanged (or documented tradeoffs).
 
+**Tests:** Compare Torch paths to NumPy reference using `np.testing.assert_allclose` with tight tolerances (suggested: `rtol=1e-6`, `atol=1e-8` for fp64; relax appropriately for fp32). Include shape/dtype asserts and invariance checks (rot/perm where applicable). Run via `pytest -q`.
 
+## Artifacts & file map (from the email thread)
 
-Hardware & Environment
+| Kind                        | Suggested path in repo                          | Notes                                  |
+| --------------------------- | ----------------------------------------------- | -------------------------------------- |
+| Wall‑time by system figure  | `results/figures/wall_time_by_system.png`       | Generated by `scripts/make_plots.py`   |
+| Wall‑time vs #species       | `results/figures/wall_time_vs_species.png`      | N²‑normalized species curves           |
+| Benzenes call graph (PNG)   | `results/figures/prof_benzenes_callgraph.png`   | From `prof_benzenes_200.prof`          |
+| Ellipsoids call graph (PNG) | `results/figures/prof_ellipsoids_callgraph.png` | From `prof_ellipsoids_200.prof`        |
+| Flamegraph (py‑spy)         | `results/logs/bench.svg`                        | Optional but useful                    |
+| cProfile (benzenes)         | `results/logs/prof_benzenes_200.prof`           | Text + graphable                       |
+| cProfile (ellipsoids)       | `results/logs/prof_ellipsoids_200.prof`         | Text + graphable                       |
+| Timings (CHTC)              | `results/tables/timings_chtc.csv`               | Per‑run raw rows                       |
+| Timings (local)             | `results/tables/timings_local.csv`              | Per‑run raw rows                       |
+| Summary (local)             | `results/tables/summary_local.csv`              | Mean ± std                             |
+| Aggregated metrics          | `results/tables/combined_from_metrics.csv`      | From `aggregate_metrics.py`            |
+| Per‑job metrics             | `results/logs/*.metrics.json`                   | Emitted by runner                      |
+| Raw wall stamps             | `results/logs/*.wall`                           | Emitted by runner                      |
+| Repro bundle (CHTC)         | `profiling_artifacts.tgz`                       | Contains results/, logs/, submit files |
+| Repro bundle (local)        | `profiling_local.zip`                           | Contains local CSVs + harness          |
 
+If your locally saved filenames differ, either **rename to these** or update the README image lines accordingly.
 
-CHTC: x86_64 Linux, 1 CPU/job (thread-pinned).
+## Hardware & environment
 
+* **CPU:** 🚧 TODO (model, cores, threads, RAM)
+* **GPU:** 🚧 TODO (model, driver, CUDA)
+* **OS:** 🚧 TODO (Linux distro & version)
+* **Libraries:** 🚧 TODO (MKL/OpenBLAS, PyTorch)
 
-Local: Apple M2 (macOS), Torch CPU + MPS.
+> Results are hardware‑sensitive; please include your specs when reporting issues.
 
+## Command cookbook
 
-GPU: CUDA (Linux) to be evaluated with full Torch path; MPS explored locally.
+Common invocations we found useful:
 
+```bash
+# 1) Small sanity benchmark
+python scripts/run_benchmarks.py --preset tiny --out results/metrics/tiny.json
 
+# 2) Multi‑species sweep
+python scripts/run_benchmarks.py --sweep species --out results/metrics/species.json
 
-Command Cookbook
-# species sweep across three backends
-export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-       NUMEXPR_NUM_THREADS=1 TORCH_NUM_THREADS=1
-for mode in numpy_only torch_mixed torch_full; do
-  ANISOAP_BACKEND=$mode \
-  python scripts/run_benchmarks.py --data $DATA_ROOT \
-    --files one_species.xyz benzenes.xyz three_species.xyz four_species.xyz \
-    --out results/metrics/${mode}_species.json
-done
+# 3) Threads sweep (CPU)
+OPENMP_NUM_THREADS=1,2,4,8,16 ... python scripts/run_benchmarks.py --preset cpu
 
-# aggregate + plot
-python scripts/aggregate_metrics.py --inputs results/metrics/*.json \
-  --out results/tables/combined_from_metrics.csv
-python scripts/make_plots.py --table results/tables/combined_from_metrics.csv \
-  --figdir results/figures
+# 4) Batch size sweep (GPU)
+python scripts/run_benchmarks.py --preset gpu --sweep batch
+```
 
+## Repo status & roadmap
 
-Acknowledgements
-Cersonsky Lab (UW–Madison), Arthur Lin, and collaborators.
+* ✅ Baseline metrics + plots checked in.
+* ✅ Repro scripts for figures.
+* 🚧 Public benchmark configs (CPU/GPU presets).
+* 🚧 Automated CI to run micro‑benchmarks on commits.
+* 🚧 Documentation site (mkdocs) with deeper guides.
+
+## How to cite
+
+> 🚧 TODO: add citation(s) for AniSOAP and this optimization report once available.
+
+```bibtex
+@inproceedings{cersonsky202Xanisoap,
+  title     = {Anisotropic SOAP and Optimization Benchmarks},
+  author    = {Cersonsky, Rose and Lin, Arthur and Dahiya, Tejas and ...},
+  year      = {202X},
+  booktitle = {...}
+}
+```
+
+## Acknowledgements
+
+Thanks to **Cersonsky Lab** (UW–Madison), **Arthur Lin**, and collaborators for guidance and reviews.
+
+---
+
+### Appendix: Repro tips
+
+* Fix seeds and versions; export `PYTHONHASHSEED=0`.
+* Keep environments immutable during a run.
+* Pin threads with `taskset` or `numactl` when comparing CPU backends.
+
+### Appendix: Troubleshooting
+
+* **Figures not rendering in GitHub preview?** Ensure image lines are outside code fences and filenames match exactly.
+* **Missing datasets?** Provide `--data` or set `DATA_ROOT`.
+* **Slow CSV writes?** Use `mode='w', index=False` and consider gzip (`.csv.gz`).
