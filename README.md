@@ -49,3 +49,6 @@ results/
 
 examples/
 README.md
+
+
+![Wall time by system](results/figures/wall_time_by_system.png)
