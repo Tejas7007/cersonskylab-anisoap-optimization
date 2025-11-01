@@ -1,0 +1,9 @@
+{
+  "xyz": "one_species.xyz",
+  "mode": "numpy",
+  "returncode": 0,
+  "elapsed_s": 0.49042439460754395,
+  "max_rss_kb": 44196,
+  "inblock": 18416,
+  "oublock": 0
+}

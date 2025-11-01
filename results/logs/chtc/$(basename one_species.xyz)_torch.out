@@ -1,0 +1,3 @@
+[START] Sat Oct 11 13:43:13 CDT 2025 file=one_species.xyz mode=torch jobtag=one_species_torch
+[OK] backend= species=1 value=4.316846e+01 elapsed=0.072831s input=one_species.xyz
+[END] Sat Oct 11 13:43:13 CDT 2025 jobtag=one_species_torch wall=0.136s

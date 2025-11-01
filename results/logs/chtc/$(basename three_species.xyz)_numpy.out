@@ -1,0 +1,3 @@
+[START] Sat Oct 11 13:43:13 CDT 2025 file=three_species.xyz mode=numpy jobtag=three_species_numpy
+[OK] backend= species=3 value=4.316846e+01 elapsed=0.260968s input=three_species.xyz
+[END] Sat Oct 11 13:43:13 CDT 2025 jobtag=three_species_numpy wall=0.393s

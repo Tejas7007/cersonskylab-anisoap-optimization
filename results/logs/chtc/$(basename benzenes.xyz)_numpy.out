@@ -1,0 +1,3 @@
+[START] Sat Oct 11 13:43:13 CDT 2025 file=benzenes.xyz mode=numpy jobtag=benzenes_numpy
+[OK] backend= species=2 value=4.316846e+01 elapsed=0.168564s input=benzenes.xyz
+[END] Sat Oct 11 13:43:13 CDT 2025 jobtag=benzenes_numpy wall=0.242s

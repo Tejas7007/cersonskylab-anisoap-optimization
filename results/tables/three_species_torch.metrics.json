@@ -1,0 +1,9 @@
+{
+  "xyz": "three_species.xyz",
+  "mode": "torch",
+  "returncode": 0,
+  "elapsed_s": 0.18306541442871094,
+  "max_rss_kb": 43472,
+  "inblock": 32984,
+  "oublock": 0
+}

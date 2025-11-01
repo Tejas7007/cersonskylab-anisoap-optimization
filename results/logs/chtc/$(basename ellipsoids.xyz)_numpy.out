@@ -1,0 +1,3 @@
+[START] Sat Oct 11 13:43:13 CDT 2025 file=ellipsoids.xyz mode=numpy jobtag=ellipsoids_numpy
+[OK] backend= species=1 value=2.000693e+00 elapsed=0.168725s input=ellipsoids.xyz
+[END] Sat Oct 11 13:43:13 CDT 2025 jobtag=ellipsoids_numpy wall=0.213s
