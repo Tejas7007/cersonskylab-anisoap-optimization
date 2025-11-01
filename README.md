@@ -610,18 +610,12 @@ Zenodo. https://doi.org/10.5281/zenodo.17503801
   doi          = {10.5281/zenodo.17503801},
   url          = {https://doi.org/10.5281/zenodo.17503801}
 }
-yaml
-Copy code
 
 ---
-
-<div align="center">
 
 **Last Updated:** November 2025  
-**Status:** Production-ready benchmarks available
-
----
+**Status:** Production-ready benchmarks available  
 
 [⬆ Back to top](#anisoap-performance-optimization)
 
-</div>
+---
