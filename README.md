@@ -594,25 +594,25 @@ SOFTWARE.
 
 If you use this repository in your research, please cite:
 
-### APA Format
-```
-Dahiya, T. (2025). AniSOAP Optimization: High-Performance Descriptor Benchmarking.
-University of Wisconsin–Madison, Cersonsky Lab.
-https://doi.org/10.5281/zenodo.17503801
-```
+**APA Format**  
+Dahiya, T. (2025). *AniSOAP Optimization: High-Performance Descriptor Benchmarking* (v1.0.0).  
+University of Wisconsin–Madison, Cersonsky Lab.  
+Zenodo. https://doi.org/10.5281/zenodo.17503801  
 
-### BibTeX Format
+**BibTeX Format**
 ```bibtex
 @software{dahiya2025anisoap,
-  author    = {Dahiya, Tejas},
-  title     = {AniSOAP Optimization: High-Performance Descriptor Benchmarking},
-  year      = {2025},
-  publisher = {Zenodo},
-  doi       = {10.5281/zenodo.17503801},
-  url       = {https://doi.org/10.5281/zenodo.17503801},
-  institution = {University of Wisconsin--Madison, Cersonsky Lab}
+  author       = {Dahiya, Tejas},
+  title        = {AniSOAP Optimization: High-Performance Descriptor Benchmarking},
+  year         = {2025},
+  publisher    = {Zenodo},
+  version      = {v1.0.0},
+  doi          = {10.5281/zenodo.17503801},
+  url          = {https://doi.org/10.5281/zenodo.17503801}
 }
-```
+yaml
+Copy code
+
 ---
 
 <div align="center">
