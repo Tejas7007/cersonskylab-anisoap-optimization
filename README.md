@@ -7,6 +7,19 @@ _Reproducible profiling & optimization of **AniSOAP** (Cersonsky Lab, UW–Madis
 
 ---
 
+## Table of Contents
+- [Repository Contents](#repository-contents)
+- [Artifacts Intake](#artifacts-intake)
+- [TL;DR Results](#tldr-results)
+- [Figures](#figures)
+- [Detailed Worklog](#detailed-worklog)
+- [Thread Parity (fair CPU tests)](#thread-parity-fair-cpu-tests)
+- [Reproduce Locally](#reproduce-locally)
+- [Acknowledgements](#acknowledgements)
+- [Citation](#citation)
+
+---
+
 ## Repository Contents
 
 ```text
@@ -17,10 +30,15 @@ scripts/
 
 results/
 ├─ tables/
+│  ├─ timings.csv
 │  ├─ timings_chtc.csv
 │  ├─ timings_local.csv
 │  ├─ summary_local.csv
-│  └─ env_report.json
+│  ├─ env_report.json
+│  ├─ ellipsoids_{numpy,torch}.metrics.json
+│  ├─ one_species_{numpy,torch}.metrics.json
+│  ├─ three_species_{numpy,torch}.metrics.json
+│  └─ four_species_{numpy,torch}.metrics.json
 ├─ figures/
 │  ├─ scaling_species.png
 │  └─ util_before_after.png
