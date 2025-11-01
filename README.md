@@ -425,7 +425,7 @@ cersonskylab-anisoap-optimization/
 ### 🚀 Future Optimization Paths
 
 #### 1. GPU Acceleration (CUDA)
-**Status:** 🔬 Research needed
+**Status:** Research needed
 
 - Port full pipeline to PyTorch (eliminate host-device copies)
 - Batch multiple frames to amortize kernel launch overhead
@@ -433,7 +433,7 @@ cersonskylab-anisoap-optimization/
 - **Expected gain:** 10-50× on large workloads
 
 #### 2. Kernel Fusion
-**Status:** 🔨 Engineering effort
+**Status:** Engineering effort
 
 - Manually fuse broadcast + masked reduction operations
 - Reduce intermediate tensor allocations
@@ -441,7 +441,7 @@ cersonskylab-anisoap-optimization/
 - **Expected gain:** 20-40% additional speedup
 
 #### 3. Algorithmic Improvements
-**Status:** 🧮 Domain expertise required
+**Status:** Domain expertise required
 
 - Reduce neighbor list density (where physically valid)
 - Cache reusable tensor contractions
@@ -552,22 +552,6 @@ gprof2dot -f pstats results/logs/prof_benzenes_200.prof | \
 
 ---
 
-## 🗺️ Roadmap
-
-| Status | Feature | Timeline |
-|--------|---------|----------|
-| ✅ | Baseline NumPy/PyTorch benchmarks | **Complete** |
-| ✅ | cProfile analysis & hotspot identification | **Complete** |
-| ✅ | Multi-species scaling validation | **Complete** |
-| ✅ | Publication-quality figures & tables | **Complete** |
-| 🚧 | Public benchmark configs (CPU/GPU presets) | Q1 2026 |
-| 🚧 | Automated CI for micro-benchmarks | Q1 2026 |
-| 🔜 | CUDA GPU profiling (Linux + NVIDIA) | Q2 2026 |
-| 🔜 | Kernel fusion prototypes | Q2 2026 |
-| 🔜 | Documentation site (MkDocs) | Q2 2026 |
-
----
-
 ## Acknowledgments
 
 This work was made possible by:
@@ -634,7 +618,6 @@ https://doi.org/10.5281/zenodo.17503801
 <div align="center">
 
 **Last Updated:** November 2025  
-**Profiling Cluster ID:** 2534045  
 **Status:** Production-ready benchmarks available
 
 ---
