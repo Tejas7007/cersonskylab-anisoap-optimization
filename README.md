@@ -501,7 +501,7 @@ python scripts/run_benchmarks.py --preset gpu --sweep batch
 
 ## Acknowledgments
 
-Thanks to **Cersonsky Lab** (UW–Madison), **CHTC** (Center for High Throughput Computing) for cluster resources, **Guillaume Fraux** for metatensor architecture discussions, and **Arthur Lin** for guidance and reviews.
+Thanks to **Cersonsky Lab** (UW–Madison), **CHTC** (Center for High Throughput Computing) for cluster resources, and **Arthur Lin** for guidance and reviews.
 
 ---
 
