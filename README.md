@@ -24,9 +24,10 @@ _Reproducible profiling & optimization of **AniSOAP** (Cersonsky Lab, UW–Madis
 
 ```text
 scripts/
-├─ organize_artifacts.py   # Ingest .tgz/.zip bundles into results/
-├─ plot_results.py         # Produce figures from timings_* CSVs
-└─ export_env.py           # Dump Python/PyTorch/CUDA env details
+├─ organize_artifacts.py
+├─ plot_results.py
+├─ export_env.py
+└─ make_plots.py
 
 results/
 ├─ tables/
@@ -35,13 +36,18 @@ results/
 │  ├─ timings_local.csv
 │  ├─ summary_local.csv
 │  ├─ env_report.json
-│  ├─ ellipsoids_{numpy,torch}.metrics.json
-│  ├─ one_species_{numpy,torch}.metrics.json
-│  ├─ three_species_{numpy,torch}.metrics.json
-│  └─ four_species_{numpy,torch}.metrics.json
+│  ├─ combined_from_metrics.csv
+│  ├─ ellipsoids_numpy.metrics.json
+│  ├─ ellipsoids_torch.metrics.json
+│  ├─ one_species_numpy.metrics.json
+│  ├─ one_species_torch.metrics.json
+│  ├─ three_species_numpy.metrics.json
+│  ├─ three_species_torch.metrics.json
+│  ├─ four_species_numpy.metrics.json
+│  └─ four_species_torch.metrics.json
 ├─ figures/
-│  ├─ scaling_species.png
-│  └─ util_before_after.png
+│  ├─ wall_time_by_system.png
+│  └─ wall_time_vs_species.png
 ├─ profiler_traces/
 └─ logs/
    ├─ chtc/
@@ -49,9 +55,9 @@ results/
 
 examples/
 README.md
+Figures
+
+Wall time by system & backend
 
 
-![Wall time by system](results/figures/wall_time_by_system.png)
-
-
-![Wall time vs #Species](results/figures/wall_time_vs_species.png)
+Wall time vs #Species
