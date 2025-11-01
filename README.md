@@ -511,7 +511,7 @@ MIT
 
 ---
 
-##📚 How to Cite
+📚 How to Cite
 
 If you use this repository in your research, please cite it as:
 
@@ -523,4 +523,4 @@ If you use this repository in your research, please cite it as:
 
 **Last Updated**: November 2025  
 **Profiling Cluster ID**: 2534045  
-**Knowledge Cutoff**: Analysis valid as of October 2025; PyTorch/NumPy versions may impact results
+**Knowledge Cutoff**: Analysis valid as of November 2025; PyTorch/NumPy versions may impact results
