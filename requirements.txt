@@ -1,7 +1,25 @@
-torch>=2.3
-triton
-numpy
-pandas
-matplotlib
-rich
+# =====================================================
+# AniSOAP Optimization — Core Python Dependencies
+# =====================================================
+# Compatible with Python 3.8–3.11
+# Works on macOS (MPS) and Linux CPU environments
+# =====================================================
+
+# --- Core scientific stack ---
+numpy>=1.24,<3
+pandas>=2.0
+matplotlib>=3.8
 pyyaml
+rich
+
+# --- Machine learning backend ---
+torch>=2.3,<2.6  # PyTorch CPU/MPS build (CUDA not required)
+
+# --- Profiling and visualization tools ---
+gprof2dot          # for call graph visualization
+py-spy             # for sampling flamegraphs
+graphviz           # Python bindings (requires system graphviz)
+
+# --- Testing and coverage ---
+pytest
+pytest-cov
