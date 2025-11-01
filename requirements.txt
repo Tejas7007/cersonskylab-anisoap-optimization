@@ -5,3 +5,4 @@ pandas
 matplotlib
 rich
 pyyaml
+ase>=3.22
