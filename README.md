@@ -496,20 +496,7 @@ pytest tests/ --cov=anisoap_opt --cov-report=html
 
 ### Software Dependencies
 
-```
-python >= 3.8
-torch >= 2.3
-numpy
-pandas
-matplotlib
-rich
-pyyaml
-triton
-```
-
 See `requirements.txt` for the complete list.
-
-> ⚠️ **Note:** Results are hardware-sensitive. Please report your specs when filing issues.
 
 ---
 
