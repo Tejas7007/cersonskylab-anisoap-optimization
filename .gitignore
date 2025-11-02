@@ -23,3 +23,7 @@ results/logs/chtc/*.err
 results/logs/chtc/*.log
 # Big example data kept out of Git
 scripts/local/data/*.xyz
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]
