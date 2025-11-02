@@ -1,3 +1,0 @@
-[START] Sat Oct 11 13:43:13 CDT 2025 file=one_species.xyz mode=numpy jobtag=one_species_numpy
-[OK] backend= species=1 value=4.316846e+01 elapsed=0.358166s input=one_species.xyz
-[END] Sat Oct 11 13:43:14 CDT 2025 jobtag=one_species_numpy wall=0.490s

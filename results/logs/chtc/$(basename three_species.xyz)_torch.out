@@ -1,3 +1,0 @@
-[START] Sat Oct 11 13:43:13 CDT 2025 file=three_species.xyz mode=torch jobtag=three_species_torch
-[OK] backend= species=3 value=4.316846e+01 elapsed=0.125080s input=three_species.xyz
-[END] Sat Oct 11 13:43:13 CDT 2025 jobtag=three_species_torch wall=0.183s
