@@ -9,3 +9,8 @@ results/_tmp_*/
 # Python bytecode caches
 __pycache__/
 *.py[cod]
+
+# CHTC runtime artifacts
+results/logs/chtc/*.out
+results/logs/chtc/*.err
+results/logs/chtc/*.log
