@@ -14,3 +14,12 @@ __pycache__/
 results/logs/chtc/*.out
 results/logs/chtc/*.err
 results/logs/chtc/*.log
+
+# Local profiling/runtime junk
+scripts/local/*.wall
+scripts/local/logs/
+results/logs/chtc/*.out
+results/logs/chtc/*.err
+results/logs/chtc/*.log
+# Big example data kept out of Git
+scripts/local/data/*.xyz
