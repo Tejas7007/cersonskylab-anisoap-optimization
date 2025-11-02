@@ -10,7 +10,11 @@ numpy>=1.24,<3
 pandas>=2.0
 matplotlib>=3.8
 pyyaml
+<<<<<<< HEAD
 
+=======
+rich
+>>>>>>> 6d3db65 (chore: remove tests and finalize optimization-only cleanup)
 
 # --- Machine learning backend ---
 torch>=2.3,<2.6  # PyTorch CPU/MPS build (CUDA not required)
