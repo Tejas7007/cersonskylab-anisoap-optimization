@@ -10,8 +10,7 @@ numpy>=1.24,<3
 pandas>=2.0
 matplotlib>=3.8
 pyyaml
-ase>=3.22
-rich
+
 
 # --- Machine learning backend ---
 torch>=2.3,<2.6  # PyTorch CPU/MPS build (CUDA not required)
