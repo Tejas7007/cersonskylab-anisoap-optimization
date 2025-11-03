@@ -1,6 +1,6 @@
 # AniSOAP Performance Optimization
 
-**DOI:** [10.5281/zenodo.17503801](https://doi.org/10.5281/zenodo.17503801)  
+**Version:** v1.1.0 • **DOI:** [10.5281/zenodo.17503801](https://doi.org/10.5281/zenodo.17503801)
 **License:** MIT • **Python:** 3.8–3.13 • **Backends:** NumPy / PyTorch (CPU, MPS experimental)
 
 ---
