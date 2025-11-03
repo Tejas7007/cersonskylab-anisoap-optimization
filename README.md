@@ -345,67 +345,46 @@ gprof2dot -f pstats results/logs/bench.prof | dot -Tpng -o results/figures/callg
 ## 📁 Repository Structure
 
 ```
-cersonskylab-anisoap-optimization/
-│
-├── 📜 README.md                                    # ← You are here (18.8 KB)
-├── 📄 CITATION.cff                                 # Citation metadata for Zenodo
-├── 📄 LICENSE                                      # MIT License
-├── 🔖 requirements.txt                             # Python dependencies
-├── 📄 .gitignore                                   # Git ignore rules
-│
-├── 📦 profiling_artifacts.tgz                      # CHTC cluster run bundle (23 KB)
-├── 📦 profiling_local.zip                          # Local profiling bundle (13 MB)
-│
-├── 📂 scripts/                                     # Analysis & visualization tools
-│   ├── make_plots.py                              # Main plotting script (3.4 KB)
-│   ├── plot_results.py                            # Additional plot utilities (1.1 KB)
-│   ├── organize_artifacts.py                      # Organize benchmark outputs (2.0 KB)
-│   └── export_env.py                              # Environment export utility (542 B)
-│
-└── 📂 results/                                     # All benchmark outputs & analysis
-    │
-    ├── 📂 figures/                                 # Publication-quality visualizations
-    │   ├── wall_time_by_system.png                # Backend comparison (39 KB)
-    │   ├── wall_time_vs_species.png               # Species scaling plot (59 KB)
-    │   ├── prof_benzenes_callgraph.png            # Benzenes cProfile graph (345 KB)
-    │   └── prof_ellipsoids_callgraph.png          # Ellipsoids cProfile graph (3.1 MB)
-    │
-    ├── 📂 tables/                                  # CSV data & metrics
-    │   ├── combined_from_metrics.csv              # Aggregated benchmark results
-    │   ├── timings.csv                            # CHTC timing data (456 B)
-    │   ├── timings_local.csv                      # Local timing data (5.4 KB)
-    │   ├── summary_local.csv                      # Statistical summaries (1.8 KB)
-    │   ├── env_report.json                        # Environment snapshot
-    │   │
-    │   └── Per-system metrics (JSON):
-    │       ├── benzenes_numpy.metrics.json
-    │       ├── benzenes_torch.metrics.json
-    │       ├── ellipsoids_numpy.metrics.json
-    │       ├── ellipsoids_torch.metrics.json
-    │       ├── one_species_numpy.metrics.json
-    │       ├── one_species_torch.metrics.json
-    │       ├── three_species_numpy.metrics.json
-    │       ├── three_species_torch.metrics.json
-    │       ├── four_species_numpy.metrics.json
-    │       └── four_species_torch.metrics.json
-    │
-    └── 📂 logs/                                    # Raw profiling data
-        ├── prof_benzenes_200.prof                 # Benzenes cProfile (200 frames, 1.2 MB)
-        ├── prof_ellipsoids_50.prof                # Ellipsoids cProfile (50 frames, 1.2 MB)
-        ├── prof_ellipsoids_200.prof               # Ellipsoids cProfile (200 frames, 1.2 MB)
-        │
-        └── 📂 chtc/                               # CHTC cluster output logs
-            ├── $(basename one_species.xyz)_numpy.out
-            ├── $(basename one_species.xyz)_torch.out
-            ├── $(basename benzenes.xyz)_numpy.out
-            ├── $(basename benzenes.xyz)_torch.out
-            ├── $(basename three_species.xyz)_numpy.out
-            ├── $(basename three_species.xyz)_torch.out
-            ├── $(basename four_species.xyz)_numpy.out
-            ├── $(basename four_species.xyz)_torch.out
-            ├── $(basename ellipsoids.xyz)_numpy.out
-            └── $(basename ellipsoids.xyz)_torch.out
+## 📁 Repository structure
 
+```
+cersonskylab-anisoap-optimization/
+├── .gitignore
+├── CITATION.cff
+├── LICENSE
+├── README.md
+├── requirements.txt
+│
+├── scripts/
+│   ├── export_env.py
+│   ├── make_plots.py
+│   ├── organize_artifacts.py
+│   └── plot_results.py
+│
+└── results/
+    ├── figures/
+    │   ├── prof_benzenes_callgraph.png
+    │   ├── prof_ellipsoids_callgraph.png
+    │   ├── wall_time_by_system.png
+    │   └── wall_time_vs_species.png
+    │
+    └── tables/
+        ├── benzenes_numpy.metrics.json
+        ├── benzenes_torch.metrics.json
+        ├── combined_from_metrics.csv
+        ├── ellipsoids_numpy.metrics.json
+        ├── ellipsoids_torch.metrics.json
+        ├── env_report.json
+        ├── four_species_numpy.metrics.json
+        ├── four_species_torch.metrics.json
+        ├── one_species_numpy.metrics.json
+        ├── one_species_torch.metrics.json
+        ├── summary_local.csv
+        ├── three_species_numpy.metrics.json
+        ├── three_species_torch.metrics.json
+        ├── timings.csv
+        └── timings_local.csv
+```
 ```
 
 **Note:** The `.venv/` directory (Python virtual environment) is present locally but excluded from version control via `.gitignore`.
