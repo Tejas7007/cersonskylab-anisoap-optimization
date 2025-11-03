@@ -1,6 +1,5 @@
-# AniSOAP Optimization — Core runtime dependencies
-# Python 3.8–3.11 compatible
-# Works on macOS (MPS) and Linux CPU environments
+# AniSOAP Optimization — Core + Dev dependencies
+# Python 3.8–3.11 compatible • macOS (MPS) and Linux CPU
 
 numpy>=1.24,<3
 pandas>=2.0,<3
@@ -8,11 +7,14 @@ matplotlib>=3.8,<4
 pyyaml>=6.0
 torch>=2.3,<2.6  # CPU/MPS build; CUDA not required
 
-# AniSOAP Optimization — Development & profiling dependencies
-
+# Profiling / visualization (Graphviz system binary recommended for dot rendering)
 gprof2dot
 py-spy
 graphviz
+
+# Testing
 pytest
 pytest-cov
-# rich>=13  # optional pretty console output if you decide to use it
+
+# Optional pretty console output
+# rich>=13
