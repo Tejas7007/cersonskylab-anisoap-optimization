@@ -341,10 +341,6 @@ gprof2dot -f pstats results/logs/bench.prof | dot -Tpng -o results/figures/callg
 ```
 
 ---
-
-## 📁 Repository Structure
-
-```
 ## 📁 Repository structure
 
 ```
@@ -354,20 +350,17 @@ cersonskylab-anisoap-optimization/
 ├── LICENSE
 ├── README.md
 ├── requirements.txt
-│
 ├── scripts/
 │   ├── export_env.py
 │   ├── make_plots.py
 │   ├── organize_artifacts.py
 │   └── plot_results.py
-│
 └── results/
     ├── figures/
     │   ├── prof_benzenes_callgraph.png
     │   ├── prof_ellipsoids_callgraph.png
     │   ├── wall_time_by_system.png
     │   └── wall_time_vs_species.png
-    │
     └── tables/
         ├── benzenes_numpy.metrics.json
         ├── benzenes_torch.metrics.json
@@ -384,7 +377,7 @@ cersonskylab-anisoap-optimization/
         ├── three_species_torch.metrics.json
         ├── timings.csv
         └── timings_local.csv
-```
+
 ```
 
 **Note:** The `.venv/` directory (Python virtual environment) is present locally but excluded from version control via `.gitignore`.
