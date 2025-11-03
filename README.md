@@ -55,32 +55,44 @@ A principled, reproducible optimization path with:
 
 ## 🚀 Quick Start
 
-### Installation
+### 🧩 Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/Tejas7007/cersonskylab-anisoap-optimization.git
 cd cersonskylab-anisoap-optimization
 
-# Option A: Using conda
-conda env create -f env/environment.yml
-conda activate anisoap-opt
+# Create and activate a virtual environment
+python -m venv .venv && source .venv/bin/activate
 
-# Option B: Using pip/uv
-uv venv && source .venv/bin/activate
-uv pip install -e .
+# Install core runtime dependencies
+pip install -r requirements.txt
+
+# (Optional) Install profiling & test dependencies
+pip install -r requirements-dev.txt
 ```
 
-### Run a Quick Benchmark
+### ⚙️ Generate plots or summaries
 
 ```bash
-# Small sanity check (~1 minute)
-python scripts/run_benchmarks.py --preset tiny --out results/metrics/tiny.json
+# Recreate publication figures and tables
+python scripts/make_plots.py
 
-# View results
-python scripts/make_plots.py --table results/metrics/tiny.json --figdir results/figures
+# Alternative plotting utility
+python scripts/plot_results.py
+
+# Organize artifacts and export environment snapshot
+python scripts/organize_artifacts.py
+python scripts/export_env.py
 ```
 
+### 📂 Input/Output overview
+
+**Inputs:**
+- All benchmarking results and metrics are stored in `results/tables/` (JSON & CSV)
+
+**Outputs:**
+- Publication-ready plots are written to `results/figures/`
 ---
 
 ## 📊 Comprehensive Results
