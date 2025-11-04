@@ -5,9 +5,9 @@ authors:
     given-names: Tejas
     affiliation: University of Wisconsin–Madison
 title: "AniSOAP Optimization: High-Performance Descriptor Benchmarking"
-version: "1.0.0"
-doi: "10.5281/zenodo.17503801"
-date-released: 2025-11-01
+version: "1.1.1"
+doi: "10.5281/zenodo.17519611"
+date-released: 2025-11-03
 url: "https://github.com/Tejas7007/cersonskylab-anisoap-optimization"
 license: MIT
 keywords:
