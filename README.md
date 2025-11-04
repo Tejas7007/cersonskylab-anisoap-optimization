@@ -1,6 +1,6 @@
 # AniSOAP Performance Optimization
 
-**Version:** v1.1.0 • **DOI:** [10.5281/zenodo.17503801](https://doi.org/10.5281/zenodo.17503801)
+**Version:** v1.1.1 • **DOI:** [10.5281/zenodo.17519611](https://doi.org/10.5281/zenodo.17519611)
 **License:** MIT • **Python:** 3.8–3.13 • **Backends:** NumPy / PyTorch (CPU, MPS experimental)
 
 ---
@@ -396,8 +396,8 @@ If you use this repository in your research, please cite:
 
 ### APA Format
 ```
-Dahiya, T. (2025). AniSOAP Optimization: High-Performance Descriptor Benchmarking (v1.0.0).
-University of Wisconsin–Madison, Cersonsky Lab. Zenodo. https://doi.org/10.5281/zenodo.17503801
+Dahiya, T. (2025). AniSOAP Optimization: High-Performance Descriptor Benchmarking (v1.1.1).
+University of Wisconsin–Madison, Cersonsky Lab. Zenodo. https://doi.org/10.5281/zenodo.17519611
 ```
 
 ### BibTeX Format
@@ -407,8 +407,8 @@ University of Wisconsin–Madison, Cersonsky Lab. Zenodo. https://doi.org/10.528
   title        = {AniSOAP Optimization: High-Performance Descriptor Benchmarking},
   year         = {2025},
   publisher    = {Zenodo},
-  version      = {v1.0.0},
-  doi          = {10.5281/zenodo.17503801},
-  url          = {https://doi.org/10.5281/zenodo.17503801}
+  version      = {v1.1.1},
+  doi          = {10.5281/zenodo.17519611},
+  url          = {https://doi.org/10.5281/zenodo.17519611}
 }
 ```
