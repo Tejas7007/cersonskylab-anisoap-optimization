@@ -5,14 +5,15 @@ authors:
     given-names: Tejas
     affiliation: University of Wisconsin–Madison
 title: "AniSOAP Optimization: High-Performance Descriptor Benchmarking"
-version: "1.1.1"
-doi: "10.5281/zenodo.17519611"
+version: "0.0.0"
+doi: "10.5281/zenodo.17519888"
 date-released: 2025-11-04
 url: "https://github.com/Tejas7007/cersonskylab-anisoap-optimization"
 license: MIT
 keywords:
-  - anisoap
+  - anisotropic SOAP
+  - atomic descriptors
   - machine learning
-  - performance optimization
+  - high-performance computing
   - materials informatics
   - pytorch
