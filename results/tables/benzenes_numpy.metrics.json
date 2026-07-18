@@ -1,0 +1,9 @@
+{
+  "xyz": "benzenes.xyz",
+  "mode": "numpy",
+  "returncode": 0,
+  "elapsed_s": 0.24216747283935547,
+  "max_rss_kb": 43584,
+  "inblock": 32464,
+  "oublock": 0
+}

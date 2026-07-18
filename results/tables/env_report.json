@@ -1,0 +1,8 @@
+{
+  "python": "3.13.9",
+  "pytorch": "2.9.0",
+  "cuda_available": false,
+  "cuda_version": null,
+  "cudnn": null,
+  "devices": []
+}

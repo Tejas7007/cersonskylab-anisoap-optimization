@@ -1,0 +1,17 @@
+AniSOAP Optimization Study
+Copyright 2025 Tejas Dahiya
+
+This repository preserves a profiling and optimization study of AniSOAP
+conducted during a Fall 2025 Open Source Program Office internship with the
+Cersonsky Lab at the University of Wisconsin-Madison.
+
+AniSOAP is developed by the Cersonsky Lab and distributed under the Apache
+License, Version 2.0:
+https://github.com/cersonsky-lab/AniSOAP
+
+AniSOAP is an external project and is not redistributed as part of this
+repository. The DOI-backed v0.0.0 study is preserved at:
+https://doi.org/10.5281/zenodo.17519888
+
+The maintained successor implementation is AniSOAP-Torch:
+https://github.com/Tejas7007/AniSOAP-Torch

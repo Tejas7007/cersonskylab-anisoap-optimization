@@ -1,0 +1,9 @@
+{
+  "xyz": "four_species.xyz",
+  "mode": "torch",
+  "returncode": 0,
+  "elapsed_s": 0.22287511825561523,
+  "max_rss_kb": 43568,
+  "inblock": 31200,
+  "oublock": 0
+}

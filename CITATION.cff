@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+title: "AniSOAP Optimization: High-Performance Descriptor Benchmarking"
+message: >-
+  Cite the Zenodo DOI for the preserved v0.0.0 study. For the maintained
+  acceleration implementation, cite AniSOAP-Torch separately.
+type: software
+authors:
+  - family-names: Dahiya
+    given-names: Tejas
+    affiliation: University of Wisconsin-Madison
+version: "0.0.0"
+date-released: 2025-11-04
+doi: "10.5281/zenodo.17519888"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.17519888"
+    description: "DOI-backed v0.0.0 profiling study"
+repository-code: "https://github.com/Tejas7007/cersonskylab-anisoap-optimization"
+url: "https://doi.org/10.5281/zenodo.17519888"
+license: MIT
+abstract: >-
+  A historical profiling and optimization study comparing NumPy and PyTorch
+  execution paths for AniSOAP workloads, with committed timing tables,
+  local microbenchmarks, call-graph figures, and explicit evidence boundaries.
+keywords:
+  - anisotropic SOAP
+  - atomistic machine learning
+  - scientific computing
+  - performance profiling
+  - benchmarking
+  - PyTorch
+  - NumPy
+references:
+  - type: software
+    title: AniSOAP
+    repository-code: "https://github.com/cersonsky-lab/AniSOAP"
+    license: Apache-2.0
+  - type: software
+    title: AniSOAP-Torch
+    repository-code: "https://github.com/Tejas7007/AniSOAP-Torch"

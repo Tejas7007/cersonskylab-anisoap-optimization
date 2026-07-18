@@ -1,0 +1,9 @@
+{
+  "xyz": "benzenes.xyz",
+  "mode": "torch",
+  "returncode": 0,
+  "elapsed_s": 0.1308887004852295,
+  "max_rss_kb": 43788,
+  "inblock": 0,
+  "oublock": 0
+}

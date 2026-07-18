@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">AniSOAP optimization study</title>
+  <desc id="desc">A three-stage overview of profiling, comparing execution scopes, and developing the later AniSOAP-Torch implementation.</desc>
+  <style>
+    .bg { fill: #0b1220; }
+    .grid { stroke: #182235; stroke-width: 1; }
+    .panel { fill: #121c2d; stroke: #304158; stroke-width: 2; }
+    .title { fill: #f8fafc; font: 700 34px system-ui, -apple-system, sans-serif; }
+    .subtitle { fill: #9fb0c6; font: 500 15px system-ui, -apple-system, sans-serif; }
+    .step { fill: #7dd3fc; font: 700 12px system-ui, -apple-system, sans-serif; letter-spacing: 1.7px; }
+    .heading { fill: #e5edf7; font: 700 21px system-ui, -apple-system, sans-serif; }
+    .copy { fill: #9fb0c6; font: 500 14px system-ui, -apple-system, sans-serif; }
+    .fine { fill: #7f91a8; font: 500 12px system-ui, -apple-system, sans-serif; }
+    .core-label { fill: #07111f; font: 800 10px system-ui, -apple-system, sans-serif; letter-spacing: 0.2px; }
+    .cyan { fill: #38bdf8; stroke: #38bdf8; }
+    .amber { fill: #fbbf24; stroke: #fbbf24; }
+    .violet { fill: #a78bfa; stroke: #a78bfa; }
+    .wire { fill: none; stroke: #536b87; stroke-width: 3; stroke-linecap: round; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#536b87" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="500" rx="30" />
+  <g opacity="0.72">
+    <path class="grid" d="M0 112H1200M0 250H1200M0 388H1200" />
+    <path class="grid" d="M200 0V500M400 0V500M600 0V500M800 0V500M1000 0V500" />
+  </g>
+
+  <text x="56" y="58" class="title">AniSOAP optimization study</text>
+  <text x="56" y="87" class="subtitle">Fall 2025 profiling evidence · DOI-backed v0.0.0 snapshot</text>
+
+  <rect x="54" y="136" width="330" height="298" rx="24" class="panel" />
+  <text x="82" y="170" class="step">01 · PROFILE</text>
+  <text x="82" y="205" class="heading">Locate hotspots</text>
+  <text x="82" y="232" class="copy">Call graphs reveal repeated,</text>
+  <text x="82" y="253" class="copy">contraction-heavy execution paths.</text>
+  <g transform="translate(219 342)">
+    <circle r="82" fill="none" stroke="#2b3b52" stroke-width="2" stroke-dasharray="7 10">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite" />
+    </circle>
+    <circle r="59" fill="none" stroke="#304963" stroke-width="2" />
+
+    <g>
+      <circle cx="0" cy="-82" r="6" class="amber" />
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="7s" repeatCount="indefinite" />
+    </g>
+    <g>
+      <circle cx="59" cy="0" r="5" class="violet" />
+      <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="5.5s" repeatCount="indefinite" />
+    </g>
+
+    <circle r="27" fill="#dff5ff" stroke="#38bdf8" stroke-width="3" />
+    <text x="0" y="4" text-anchor="middle" class="core-label">HOTSPOT</text>
+  </g>
+
+  <path d="M399 285H421" class="wire" marker-end="url(#arrow)" />
+
+  <rect x="435" y="136" width="330" height="298" rx="24" class="panel" />
+  <text x="463" y="170" class="step">02 · COMPARE</text>
+  <text x="463" y="205" class="heading">Compare scopes</text>
+  <text x="463" y="232" class="copy">Whole workloads and tiny</text>
+  <text x="463" y="253" class="copy">operations can disagree.</text>
+  <g transform="translate(463 300)">
+    <text x="0" y="14" class="fine">NumPy</text>
+    <rect x="76" y="0" width="198" height="18" rx="9" fill="#26364b" />
+    <rect x="76" y="0" width="144" height="18" rx="9" class="amber" opacity="0.92" />
+
+    <text x="0" y="58" class="fine">PyTorch</text>
+    <rect x="76" y="44" width="198" height="18" rx="9" fill="#26364b" />
+    <rect x="76" y="44" width="96" height="18" rx="9" class="cyan" opacity="0.92" />
+
+    <path d="M76 104H274" stroke="#3b506a" stroke-width="2" />
+    <circle cx="176" cy="104" r="6" class="violet" />
+    <text x="76" y="130" class="fine">tiny operation</text>
+    <text x="274" y="130" text-anchor="end" class="fine">whole workload</text>
+  </g>
+
+  <path d="M780 285H802" class="wire" marker-end="url(#arrow)" />
+
+  <rect x="816" y="136" width="330" height="298" rx="24" class="panel" />
+  <text x="844" y="170" class="step">03 · EVOLVE</text>
+  <text x="844" y="205" class="heading">Engineer the next path</text>
+  <text x="844" y="232" class="copy">The study informed a batched</text>
+  <text x="844" y="253" class="copy">PyTorch and Rust implementation.</text>
+
+  <g transform="translate(844 300)">
+    <rect width="246" height="92" rx="20" fill="#1b2a3e" stroke="#34d399" stroke-width="2" />
+    <text x="22" y="37" class="heading">AniSOAP-Torch</text>
+    <text x="22" y="63" class="fine">maintained successor</text>
+    <path d="M203 31H226M215 19l12 12-12 12" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <animateTransform attributeName="transform" type="translate" values="-3 0;3 0;-3 0" dur="2.8s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      animate, animateTransform { display: none; }
+    }
+  </style>
+</svg>

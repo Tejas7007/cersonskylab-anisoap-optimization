@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environments and local configuration
+.venv/
+.venv-*/
+.env
+.env.*
+!.env.example
+
+# Generated analysis outputs
+results/generated/
+.audit/
+
+# Profiling and scheduler artifacts
+*.prof
+*.wall
+*.out
+*.err
+*.log
+*.tgz
+*.zip
+results/_tmp_*/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/

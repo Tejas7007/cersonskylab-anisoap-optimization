@@ -1,0 +1,9 @@
+{
+  "xyz": "three_species.xyz",
+  "mode": "numpy",
+  "returncode": 0,
+  "elapsed_s": 0.39318180084228516,
+  "max_rss_kb": 43596,
+  "inblock": 33992,
+  "oublock": 0
+}

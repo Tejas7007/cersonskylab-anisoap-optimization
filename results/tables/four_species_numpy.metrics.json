@@ -1,0 +1,9 @@
+{
+  "xyz": "four_species.xyz",
+  "mode": "numpy",
+  "returncode": 0,
+  "elapsed_s": 0.2523961067199707,
+  "max_rss_kb": 43572,
+  "inblock": 32144,
+  "oublock": 0
+}

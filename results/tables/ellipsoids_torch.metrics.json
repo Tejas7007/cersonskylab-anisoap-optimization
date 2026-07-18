@@ -1,0 +1,9 @@
+{
+  "xyz": "ellipsoids.xyz",
+  "mode": "torch",
+  "returncode": 0,
+  "elapsed_s": 0.21896767616271973,
+  "max_rss_kb": 35232,
+  "inblock": 31680,
+  "oublock": 0
+}
